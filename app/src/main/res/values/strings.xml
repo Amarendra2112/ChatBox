@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Chat Box</string>
+    <string name="Chat">Chat</string>
+    <string name="Status">Status</string>
+    <string name="Calls">Calls</string>
+</resources>
