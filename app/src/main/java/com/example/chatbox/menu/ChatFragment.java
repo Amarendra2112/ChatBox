@@ -3,12 +3,19 @@ package com.example.chatbox.menu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatbox.R;
+import com.example.chatbox.adapter.Adapter;
+import com.example.chatbox.model.ChatList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +64,22 @@ public class ChatFragment extends Fragment {
         }
     }
 
+    private List<ChatList> lists = new ArrayList<>();
+    private RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        recyclerView = view.findViewById(R.id.RecyclerViewChat);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        getChatList();
+
+        return view;
+    }
+
+    private void getChatList() {
+        lists.add(new ChatList("11","lym","hello frnds","01/02/2020","https://www.google.com/search?q=Happy&sxsrf=ALeKk02vcvXdacGR0VJVC-BkCs3-1BnX2w:1595327669598&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjUra_Ykt7qAhXMAnIKHUwuBVwQ_AUoAXoECB0QAw&biw=1918&bih=960#imgrc=leP3l-UPM9G1qM"));
+        recyclerView.setAdapter(new Adapter(getContext(),lists));
     }
 }
