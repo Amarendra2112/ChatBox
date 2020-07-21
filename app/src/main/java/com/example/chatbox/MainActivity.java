@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,22 @@ public class MainActivity extends AppCompatActivity {
         setUpWithViewPager(binding.ViewPager);
         binding.TabLayout.setupWithViewPager(binding.ViewPager);
         setSupportActionBar(binding.MainActivityToolbar);
+        binding.ViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                changeFabIcon(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -95,6 +113,25 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private void changeFabIcon(final int index)
+    {
+        binding.FloatingActionButton.hide();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                switch(index)
+                {
+                    case 0 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_chat_24));break;
+                    case 1 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_camera_24));break;
+                    case 2 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_call_24));break;
+                }
+                binding.FloatingActionButton.show();
+            }
+        },300);
+
     }
 
 }

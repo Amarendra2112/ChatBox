@@ -4,11 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/MainActivityToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00BCD4"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Chat Box"
+        app:titleTextColor="@android:color/white" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/Appbar"
@@ -16,55 +26,58 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/MainActivityToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00BCD4"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:title="Chat Box"
-            app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabIndicator="@android:color/black"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/holo_blue_dark"
-        app:tabIndicatorHeight="?actionBarSize">
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/ChatFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Chat" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/StatusFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Status" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/CallsFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Calls" />
-
-
-    </com.google.android.material.tabs.TabLayout>
-
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/ViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/ViewPager"
-        android:visibility="visible"
-        android:layout_marginTop="50dp"
-        />
+        android:layout_below="@+id/MainActivityToolbar"
+        android:layout_marginTop="0dp"
+        android:visibility="visible">
 
-</LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabIndicator="@android:color/black"
+            app:tabIndicatorColor="@android:color/holo_blue_dark"
+            app:tabIndicatorHeight="?actionBarSize"
+            app:tabSelectedTextColor="@android:color/white">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ChatFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Chat" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/StatusFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Status" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/CallsFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Calls" />
+
+
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/stat_notify_chat" />
+
+</RelativeLayout>
 </layout>
