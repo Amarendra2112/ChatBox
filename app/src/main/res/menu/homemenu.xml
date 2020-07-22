@@ -5,13 +5,13 @@
     <item
         android:id="@+id/SearchMenu"
         android:icon="@android:drawable/ic_menu_search"
+        android:iconTint="#FBFBFB"
         android:title="Search"
-        android:iconTint="@android:color/white"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/MoreMenu"
-        android:icon="@android:drawable/ic_menu_send"
-        android:title="MoreMenu"
+        android:icon="@drawable/ic_baseline_more_vert_24"
         android:iconTint="@android:color/white"
+        android:title="MoreMenu"
         app:showAsAction="ifRoom" />
 </menu>

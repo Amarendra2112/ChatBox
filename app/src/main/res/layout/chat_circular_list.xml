@@ -11,8 +11,9 @@
         android:id="@+id/DpImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:srcCompat="@drawable/nodp"
-        tools:srcCompat="@drawable/nodp" />
+        android:background="#2E0303"
+        app:srcCompat="@mipmap/ic_launcher"
+        tools:srcCompat="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:layout_width="match_parent"

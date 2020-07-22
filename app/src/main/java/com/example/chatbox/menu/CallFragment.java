@@ -3,12 +3,19 @@ package com.example.chatbox.menu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatbox.R;
+import com.example.chatbox.adapter.CallAdapter;
+import com.example.chatbox.model.CallList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +64,20 @@ public class CallFragment extends Fragment {
         }
     }
 
+    RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_call, container, false);
+        View view = inflater.inflate(R.layout.fragment_call, container, false);
+        recyclerView = view.findViewById(R.id.CallRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        List<CallList> list = new ArrayList<>();
+        list.add(new CallList("1","Name","01/01/2012","23:10","","receive"));
+        list.add(new CallList("2","Name","01/01/2012","23:10","https://www.google.com/search?q=random+images&sxsrf=ALeKk02lg8g4OndY5iU35opjOpcDl9qPig:1595420232062&tbm=isch&source=iu&ictx=1&fir=Sbh_if3SN-39DM%252CBDsDWFZCtC3kDM%252C_&vet=1&usg=AI4_-kRTgdJch2RKw6P2xC705Eu6OkH8Og&sa=X&ved=2ahUKEwipiszB6-DqAhWF63MBHX-oBxIQ9QEwDXoECAoQRg&biw=1918&bih=1009#imgrc=Sbh_if3SN-39DM","missed"));
+        list.add(new CallList("3","Name","01/01/2012","23:10","https://www.google.com/search?q=random+images&sxsrf=ALeKk02lg8g4OndY5iU35opjOpcDl9qPig:1595420232062&tbm=isch&source=iu&ictx=1&fir=Sbh_if3SN-39DM%252CBDsDWFZCtC3kDM%252C_&vet=1&usg=AI4_-kRTgdJch2RKw6P2xC705Eu6OkH8Og&sa=X&ved=2ahUKEwipiszB6-DqAhWF63MBHX-oBxIQ9QEwDXoECAoQRg&biw=1918&bih=1009#imgrc=Sbh_if3SN-39DM","attend"));
+        recyclerView.setAdapter(new CallAdapter(list,getContext()));
+        return view;
     }
 }
