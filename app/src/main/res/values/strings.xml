@@ -3,4 +3,5 @@
     <string name="Chat">Chat</string>
     <string name="Status">Status</string>
     <string name="Calls">Calls</string>
+    <string name="AuthMsg">Welcome to Chat box. Please enter your country code and phone number for the verification.</string>
 </resources>
