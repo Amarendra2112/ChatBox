@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.example.chatbox.MainActivity;
 import com.example.chatbox.R;
+import com.example.chatbox.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -23,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,14 +36,20 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
     private Button verify;
     private EditText countryCode,phnNumb;
     private FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser;
+    FirebaseUser firebaseUser,fireUser;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationCode;
+    private FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_auth);
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        userIsLogin();
+
 
         heading = findViewById(R.id.VerificationText);
         verify = findViewById(R.id.SendCode);
@@ -49,11 +59,6 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
         code = findViewById(R.id.VerifyCode);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(mVerificationCode != null)
-        {
-            Intent intent = new Intent(this,MainActivity.class);
-
-        }
 
         verify.setOnClickListener(this);
 
@@ -111,7 +116,21 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                         if (task.isSuccessful()) {
 
                             final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            startActivity(new Intent(PhoneAuth.this, MainActivity.class));
+                            if(user != null)
+                            {
+                                String uId =  user.getUid();
+                                User users = new User(uId,"",user.getPhoneNumber(),"","","","","","");
+                                firebaseFirestore.collection("Users").document("UserInfo").collection(uId).add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        userIsLogin();
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 
@@ -127,6 +146,18 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithPhoneAuthCredential(credential);
+    }
+
+    public void userIsLogin()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null)
+        {
+            Intent intent = new Intent(this,SetUSerInfo.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
 }
