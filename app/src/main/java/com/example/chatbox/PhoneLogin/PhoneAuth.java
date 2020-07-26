@@ -3,6 +3,7 @@ package com.example.chatbox.PhoneLogin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationCode;
     private FirebaseFirestore firebaseFirestore;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_phone_auth);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
+        progressDialog = new ProgressDialog(this);
 
         userIsLogin();
 
@@ -87,18 +90,29 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         if(verify.getText().toString() == "send")
         {
-            String phone = countryCode.getText().toString() + phnNumb.getText().toString();
-            Log.d("Phone",phone);
+            if(countryCode.getText().toString().length() != 3 && phnNumb.getText().toString().length() !=10)
+            {
+                Toast.makeText(this,"Please enter valid country code or number",Toast.LENGTH_SHORT).show();
+            }
 
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    phone,        // Phone number to verify
-                    120,                 // Timeout duration
-                    TimeUnit.SECONDS,   // Unit of timeout
-                    this,               // Activity (for callback binding)
-                    mCallBacks);        // OnVerificationStateChangedCallbacks
+            else
+            {
+                progressDialog.setMessage("Processing..");
+                progressDialog.show();
+                String phone = countryCode.getText().toString() + phnNumb.getText().toString();
+                Log.d("Phone",phone);
+
+                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                        phone,        // Phone number to verify
+                        120,                 // Timeout duration
+                        TimeUnit.SECONDS,   // Unit of timeout
+                        this,               // Activity (for callback binding)
+                        mCallBacks);        // OnVerificationStateChangedCallbacks
 
 
-            verify.setText("verify");
+                verify.setText("verify");
+            }
+
         }
         else
         {
@@ -150,6 +164,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
     public void userIsLogin()
     {
+        progressDialog.dismiss();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null)
         {
