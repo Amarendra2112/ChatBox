@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.chatbox.PhoneLogin.PhoneAuth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -15,13 +17,30 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent= new Intent(SplashScreen.this, PhoneAuth.class);
-                startActivity(intent);
-                finish();
-            }
-        },1000);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser != null)
+        {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(SplashScreen.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            },1000);
+        }
+        else
+        {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent= new Intent(SplashScreen.this, PhoneAuth.class);
+                    startActivity(intent);
+                    finish();
+                }
+            },1000);
+        }
+
+
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.example.chatbox.databinding.ActivityMainBinding;
 import com.example.chatbox.menu.CallFragment;
 import com.example.chatbox.menu.ChatFragment;
 import com.example.chatbox.menu.StatusFragment;
+import com.example.chatbox.setting.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,27 @@ public class MainActivity extends AppCompatActivity {
         else if(item.getItemId() == R.id.MoreMenu)
         {
             Toast.makeText(this,"More",Toast.LENGTH_SHORT).show();
+        }
+        else if(item.getItemId() == R.id.MenuNewGroup)
+        {
+            Toast.makeText(this,"New Group",Toast.LENGTH_SHORT).show();
+        }
+        else if(item.getItemId() == R.id.MenuNewBroadCast)
+        {
+            Toast.makeText(this,"Broadcast",Toast.LENGTH_SHORT).show();
+        }
+        else if(item.getItemId() == R.id.MenuWhatappWeb)
+        {
+            Toast.makeText(this,"Web",Toast.LENGTH_SHORT).show();
+        }
+        else if(item.getItemId() == R.id.MenuStarMessage)
+        {
+            Toast.makeText(this,"Star",Toast.LENGTH_SHORT).show();
+        }
+        else if(item.getItemId() == R.id.MenuSetting)
+        {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

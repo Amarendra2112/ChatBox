@@ -2,6 +2,7 @@ package com.example.chatbox.menu;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +67,7 @@ public class ChatFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
+    private ConstraintLayout noText;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,9 +76,22 @@ public class ChatFragment extends Fragment {
         recyclerView = view.findViewById(R.id.RecyclerViewChat);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         List<ChatList> lists = new ArrayList<>();
+        noText = view.findViewById(R.id.NoFriendConstrainedLayout);
 
-        lists.add(new ChatList("11","lym","hello frnds","01/02/2020","https://www.google.com/search?q=Happy&sxsrf=ALeKk02vcvXdacGR0VJVC-BkCs3-1BnX2w:1595327669598&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjUra_Ykt7qAhXMAnIKHUwuBVwQ_AUoAXoECB0QAw&biw=1918&bih=960#imgrc=leP3l-UPM9G1qM"));
-        recyclerView.setAdapter(new Adapter(getContext(),lists));
+        //lists.add(new ChatList("11","lym","hello frnds","01/02/2020","https://www.google.com/search?q=Happy&sxsrf=ALeKk02vcvXdacGR0VJVC-BkCs3-1BnX2w:1595327669598&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjUra_Ykt7qAhXMAnIKHUwuBVwQ_AUoAXoECB0QAw&biw=1918&bih=960#imgrc=leP3l-UPM9G1qM"));
+
+        if(lists.isEmpty())
+        {
+            noText.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            noText.setVisibility(View.GONE);
+            recyclerView.setAdapter(new Adapter(getContext(),lists));
+        }
+
+
+
 
         return view;
     }

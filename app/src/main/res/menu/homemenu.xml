@@ -8,10 +8,23 @@
         android:iconTint="#FBFBFB"
         android:title="Search"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/MoreMenu"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        android:iconTint="@android:color/white"
-        android:title="MoreMenu"
-        app:showAsAction="ifRoom" />
+    <group android:id="@+id/MoreMenu">
+        <item
+            android:id="@+id/MenuNewGroup"
+            android:icon="@drawable/ic_baseline_more_vert_24"
+            android:iconTint="@android:color/white"
+            android:title="New Group" />
+        <item
+            android:id="@+id/MenuNewBroadCast"
+            android:title="New Broadcast" />
+        <item
+            android:id="@+id/MenuWhatappWeb"
+            android:title="Whatapp Web" />
+        <item
+            android:id="@+id/MenuStarMessage"
+            android:title="Started Message" />
+        <item
+            android:id="@+id/MenuSetting"
+            android:title="Setting" />
+    </group>
 </menu>
