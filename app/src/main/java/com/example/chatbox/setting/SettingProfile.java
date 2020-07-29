@@ -1,18 +1,12 @@
 package com.example.chatbox.setting;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.widget.TextView;
 
-import com.example.chatbox.MainActivity;
 import com.example.chatbox.R;
-import com.example.chatbox.databinding.ActivitySettingBinding;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,46 +15,36 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingProfile extends AppCompatActivity {
 
-    private ActivitySettingBinding binding;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
-
+    TextView userName,phone,status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_setting);
+        setContentView(R.layout.activity_setting_profile);
+
+        userName = findViewById(R.id.ProfileAboutStatus);
+        phone = findViewById(R.id.ProfilePhoneDetail);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
         if(firebaseUser != null)
         {
-            getDetail();
+            populate();
         }
-
-        binding.FirstLinearLayoutSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SettingProfile.class);
-                startActivity(intent);
-            }
-        });
     }
 
-    private void getDetail() {
+    private void populate() {
         firebaseFirestore.collection("Users").document(firebaseUser.getUid().toString()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String userName = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
-                binding.SettingUserName.setText(userName);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
+                String username = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
+                userName.setText(username);
+                String userPhone = Objects.requireNonNull(documentSnapshot.get("userPhone")).toString();
+                phone.setText(userPhone);
             }
         });
     }
-
 }
