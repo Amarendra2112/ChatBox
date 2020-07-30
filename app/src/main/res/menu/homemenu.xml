@@ -8,9 +8,7 @@
         android:iconTint="#FBFBFB"
         android:title="Search"
         app:showAsAction="ifRoom" />
-    <group
-        android:id="@+id/MoreMenu"
-        android:visible="false">
+    <group android:id="@+id/MoreMenu">
         <item
             android:id="@+id/MenuNewGroup"
             android:icon="@drawable/ic_baseline_more_vert_24"
