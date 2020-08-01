@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.chatbox.R;
 
 /**
@@ -27,9 +28,11 @@ public class StatusFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ImageView icon;
 
     public StatusFragment() {
         // Required empty public constructor
+
     }
 
     /**
@@ -50,6 +53,8 @@ public class StatusFragment extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,12 +62,18 @@ public class StatusFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        icon = getView().findViewById(R.id.StatusImage);
+//        Glide.with(getContext()).load("imageProfile").into(icon);
         return inflater.inflate(R.layout.fragment_status, container, false);
+
     }
 }

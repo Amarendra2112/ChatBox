@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.chatbox.MainActivity;
 import com.example.chatbox.R;
 import com.example.chatbox.databinding.ActivitySettingBinding;
@@ -54,6 +55,9 @@ public class SettingActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String userName = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
                 binding.SettingUserName.setText(userName);
+                String imageProfile = documentSnapshot.getString("imageProfile");
+
+                Glide.with(SettingActivity.this).load(imageProfile).into(binding.SettingUserProfilePic);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

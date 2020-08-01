@@ -19,11 +19,13 @@
         android:orientation="horizontal">
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/ChooseFolder"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/folderpic" />
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/ChooseCamera"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_baseline_photo_camera_24" />

@@ -1,26 +1,21 @@
 package com.example.chatbox.setting;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
-
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.chatbox.R;
 import com.example.chatbox.model.Common;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,61 +24,56 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.jsibbold.zoomage.ZoomageView;
 
 import java.util.HashMap;
-import java.util.Objects;
 
-public class SettingProfile extends AppCompatActivity {
+public class ProfilePicView extends AppCompatActivity {
 
-    private FirebaseUser firebaseUser;
-    private FirebaseFirestore firebaseFirestore;
-    TextView userName,phone;
-    ImageView camera,profile;
-    private BottomSheetDialog bottomSheetDialog;
-    private int IMAGE_GALLERY_REQUEST = 111;
+    private Toolbar toolbar;
+    private ImageView back,edit,share;
+    private ZoomageView profile;
     private Uri imageUri;
     private ProgressDialog progressDialog;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseUser firebaseUser;
+
+    private int IMAGE_GALLERY_REQUEST = 111;
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_profile);
-
-        userName = findViewById(R.id.ProfileAboutStatus);
-        phone = findViewById(R.id.ProfilePhoneDetail);
-        camera = findViewById(R.id.ProfilePicEdit);
-        profile = findViewById(R.id.UserProfilePic);
+        setContentView(R.layout.activity_profile_pic_view);
+        toolbar = findViewById(R.id.ProfilePicToolbar);
+        back = findViewById(R.id.BackArrow);
+        edit = findViewById(R.id.ProfilePicEditOnPic);
+        share =  findViewById(R.id.ShareProfilePic);
+        profile = findViewById(R.id.ZoomProfile);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog = new ProgressDialog(this);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        if(firebaseUser != null)
-        {
-            populate();
-        }
-        camera.setOnClickListener(new View.OnClickListener() {
+        profile.setImageBitmap(Common.IMAGE_BITMAP);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showBottomSheetLayout();
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                profile.invalidate();
-                Drawable dr = profile.getDrawable();
-                Common.IMAGE_BITMAP =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
-                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingProfile.this,profile,"image");
-                Intent intent = new Intent(SettingProfile.this,ProfilePicView.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void showBottomSheetLayout() {
@@ -112,7 +102,6 @@ public class SettingProfile extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"select image"),IMAGE_GALLERY_REQUEST);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -143,8 +132,8 @@ public class SettingProfile extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(getApplicationContext(),"Upload Successful",Toast.LENGTH_SHORT).show();
-                            populate();
                             progressDialog.dismiss();
+                            finish();
                         }
                     });
                 }
@@ -164,17 +153,4 @@ public class SettingProfile extends AppCompatActivity {
     }
 
 
-    private void populate() {
-        firebaseFirestore.collection("Users").document(firebaseUser.getUid().toString()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String username = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
-                userName.setText(username);
-                String userPhone = Objects.requireNonNull(documentSnapshot.get("userPhone")).toString();
-                phone.setText(userPhone);
-                String imageProfile = documentSnapshot.getString("imageProfile");
-                Glide.with(SettingProfile.this).load(imageProfile).into(profile);
-            }
-        });
-    }
 }
