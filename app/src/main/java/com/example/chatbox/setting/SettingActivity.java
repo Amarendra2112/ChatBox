@@ -1,17 +1,19 @@
 package com.example.chatbox.setting;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.example.chatbox.MainActivity;
+;
 import com.example.chatbox.R;
+import com.example.chatbox.SplashScreen;
 import com.example.chatbox.databinding.ActivitySettingBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,6 +49,34 @@ public class SettingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
+    }
+
+    private void logoutUser() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+        builder.setMessage("Do you want to logout from Chat Box");
+        builder.setPositiveButton("Sign out", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(SettingActivity.this, SplashScreen.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void getDetail() {
