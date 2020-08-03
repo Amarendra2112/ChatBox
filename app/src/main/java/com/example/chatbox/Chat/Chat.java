@@ -26,7 +26,11 @@ public class Chat extends AppCompatActivity {
         if(userName != null)
         {
             binding.ChatUserName.setText(userName);
-            Glide.with(this).load(userProfile).into(binding.ChatUserProfile);
+            if(userProfile != "")
+            {
+                Glide.with(this).load(userProfile).into(binding.ChatUserProfile);
+            }
+
         }
         binding.ChatBackButton.setOnClickListener(new View.OnClickListener() {
             @Override

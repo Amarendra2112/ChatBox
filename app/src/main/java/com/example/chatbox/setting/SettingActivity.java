@@ -86,8 +86,11 @@ public class SettingActivity extends AppCompatActivity {
                 String userName = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
                 binding.SettingUserName.setText(userName);
                 String imageProfile = documentSnapshot.getString("imageProfile");
+                if(imageProfile != "")
+                {
+                    Glide.with(SettingActivity.this).load(imageProfile).into(binding.SettingUserProfilePic);
+                }
 
-                Glide.with(SettingActivity.this).load(imageProfile).into(binding.SettingUserProfilePic);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

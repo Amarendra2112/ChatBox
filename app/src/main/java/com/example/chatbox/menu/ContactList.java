@@ -63,9 +63,12 @@ public class ContactList extends AppCompatActivity {
                     String status = snapshots.getString("bio");
                     String userId = snapshots.getString("userId");
                     String imageUrl = snapshots.getString("imageProfile");
+                    if(userName != "")
+                    {
+                        User user = new User(userId,userName,"",imageUrl,"","","","",status);
+                        list.add(user);
+                    }
 
-                    User user = new User(userId,userName,"",imageUrl,"","","","",status);
-                    list.add(user);
                 }
                 adapter = new ContactListAdapter(list,ContactList.this);
                 binding.ContactListRecyclerView.setAdapter(adapter);

@@ -134,7 +134,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                             {
                                 String uId =  user.getUid();
                                 User users = new User(uId,"",user.getPhoneNumber(),"","","","","","");
-                                firebaseFirestore.collection("Users").document("UserInfo").collection(uId).add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                firebaseFirestore.collection("Users").add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         userIsLogin();

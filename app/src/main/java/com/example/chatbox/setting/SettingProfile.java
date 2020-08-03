@@ -76,12 +76,27 @@ public class SettingProfile extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                profile.invalidate();
-                Drawable dr = profile.getDrawable();
-                Common.IMAGE_BITMAP =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
-                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingProfile.this,profile,"image");
-                Intent intent = new Intent(SettingProfile.this,ProfilePicView.class);
-                startActivity(intent);
+                firebaseFirestore.collection("Users").document(firebaseUser.getUid().toString()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                     if(documentSnapshot.getString("imageProfile") != "")
+                     {
+                         profile.invalidate();
+                         Drawable dr = profile.getDrawable();
+                         Common.IMAGE_BITMAP =  ((GlideBitmapDrawable)dr.getCurrent()).getBitmap();
+                         ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(SettingProfile.this,profile,"image");
+                         Intent intent = new Intent(SettingProfile.this,ProfilePicView.class);
+                         startActivity(intent);
+                     }
+
+                     else
+                     {
+                         Toast.makeText(getApplicationContext(),"No profile pic available",Toast.LENGTH_SHORT).show();
+                     }
+
+                    }
+                });
+
             }
         });
     }
@@ -173,7 +188,11 @@ public class SettingProfile extends AppCompatActivity {
                 String userPhone = Objects.requireNonNull(documentSnapshot.get("userPhone")).toString();
                 phone.setText(userPhone);
                 String imageProfile = documentSnapshot.getString("imageProfile");
-                Glide.with(SettingProfile.this).load(imageProfile).into(profile);
+                if(imageProfile != "")
+                {
+                    Glide.with(SettingProfile.this).load(imageProfile).into(profile);
+                }
+
             }
         });
     }
