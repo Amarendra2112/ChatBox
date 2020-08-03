@@ -65,8 +65,11 @@ public class ContactList extends AppCompatActivity {
                     String imageUrl = snapshots.getString("imageProfile");
                     if(userName != "")
                     {
-                        User user = new User(userId,userName,"",imageUrl,"","","","",status);
-                        list.add(user);
+                        if(!userId.equals(user.getUid()))
+                        {
+                            User user = new User(userId,userName,"",imageUrl,"","","","",status);
+                            list.add(user);
+                        }
                     }
 
                 }

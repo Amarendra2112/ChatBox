@@ -30,13 +30,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private int pos;
+    private int pos=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
-        pos = 0;
+
         setUpWithViewPager(binding.ViewPager);
         binding.TabLayout.setupWithViewPager(binding.ViewPager);
         setSupportActionBar(binding.MainActivityToolbar);
@@ -54,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+        binding.FloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pos==0)
+                {
+                    Intent intent = new Intent(MainActivity.this,ContactList.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -170,9 +180,14 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(),"Status",Toast.LENGTH_SHORT).show();
                 }
-                else
+                else if(pos ==2)
                 {
                     Toast.makeText(getApplicationContext(),"Call",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent intent = new Intent(MainActivity.this,ContactList.class);
+                    startActivity(intent);
                 }
 
             }
