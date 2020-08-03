@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".setting.ProfilePicView"></activity>
+        <activity android:name=".Chat.Chat"></activity>
+        <activity android:name=".menu.ContactList" />
+        <activity android:name=".setting.ProfilePicView" />
         <activity android:name=".setting.SettingProfile" />
         <activity android:name=".setting.SettingActivity" />
         <activity android:name=".PhoneLogin.SetUSerInfo" />

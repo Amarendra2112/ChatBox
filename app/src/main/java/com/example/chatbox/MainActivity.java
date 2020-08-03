@@ -14,11 +14,13 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.chatbox.databinding.ActivityMainBinding;
 import com.example.chatbox.menu.CallFragment;
 import com.example.chatbox.menu.ChatFragment;
+import com.example.chatbox.menu.ContactList;
 import com.example.chatbox.menu.StatusFragment;
 import com.example.chatbox.setting.SettingActivity;
 
@@ -28,6 +30,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,14 +150,33 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 switch(index)
                 {
-                    case 0 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_chat_24));break;
-                    case 1 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_camera_24));break;
-                    case 2 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_call_24));break;
+                    case 0 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_chat_24));pos = 0; break;
+                    case 1 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_camera_24));pos=1; break;
+                    case 2 : binding.FloatingActionButton.setImageDrawable(getDrawable(R.drawable.ic_baseline_call_24));pos = 2; break;
                 }
                 binding.FloatingActionButton.show();
             }
         },100);
 
+        binding.FloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pos == 0)
+                {
+                    Intent intent = new Intent(MainActivity.this,ContactList.class);
+                    startActivity(intent);
+                }
+                else if(pos ==1)
+                {
+                    Toast.makeText(getApplicationContext(),"Status",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Call",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
 }
