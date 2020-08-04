@@ -72,21 +72,24 @@
                 android:layout_width="235dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Name" />
+                android:text="Name"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/ProfileAboutStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="This name will be visible to all Chat Box Users" />
+                android:text="This name will be visible to all Chat Box Users"
+                android:textSize="12sp" />
 
         </LinearLayout>
         <ImageView
@@ -124,14 +127,16 @@
                 android:layout_width="235dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="About" />
+                android:text="About"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/ProfileStatusDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Status" />
+                android:text="Status"
+                android:textStyle="bold|italic" />
 
         </LinearLayout>
         <ImageView
@@ -167,14 +172,16 @@
                 android:layout_width="235dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Phone" />
+                android:text="Phone"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/ProfilePhoneDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
