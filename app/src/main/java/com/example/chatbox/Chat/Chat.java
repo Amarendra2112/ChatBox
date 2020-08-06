@@ -144,7 +144,7 @@ public class Chat extends AppCompatActivity {
                     {
 
                         Chats chats = snapshot1.getValue(Chats.class);
-                        if(chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverId))
+                        if(chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverId) || chats.getSender().equals(receiverId) && chats.getReceiver().equals(firebaseUser.getUid()))
                         {
                             list.add(chats);
                             Log.d("NumberOfRep","HIGH");
