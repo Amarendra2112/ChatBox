@@ -9,8 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.chatbox.R;
 import com.example.chatbox.model.Chat.Chats;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
     private Context context;
     private static final int MAG_TYPE_LEFT = 0;
     private static final int MAG_TYPE_RIGHT = 1;
+    private FirebaseUser firebaseUser;
 
     public ChatAdapter(List<Chats> list, Context context) {
         this.list = list;
@@ -43,7 +47,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-
         holder.bind(list.get(position));
     }
 
@@ -61,6 +64,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
         }
         void bind(Chats chats){
             message.setText(chats.getTextMessage());
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(list.get(position).getSender().equals(firebaseUser.getUid()))
+        {
+            return MAG_TYPE_RIGHT;
+        }
+        else
+        {
+            return MAG_TYPE_LEFT;
         }
     }
 }
