@@ -37,7 +37,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
     private Button verify;
     private EditText countryCode,phnNumb;
     private FirebaseAuth firebaseAuth;
-    FirebaseUser firebaseUser,fireUser;
+    FirebaseUser firebaseUser;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
     private String mVerificationCode;
     private FirebaseFirestore firebaseFirestore;

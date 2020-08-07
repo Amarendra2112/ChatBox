@@ -73,8 +73,17 @@ public class ContactList extends AppCompatActivity {
                     }
 
                 }
-                adapter = new ContactListAdapter(list,ContactList.this);
-                binding.ContactListRecyclerView.setAdapter(adapter);
+                if(list.isEmpty())
+                {
+                    binding.NoFriendConstrainedLayout.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    binding.NoFriendConstrainedLayout.setVisibility(View.GONE);
+                    adapter = new ContactListAdapter(list,ContactList.this);
+                    binding.ContactListRecyclerView.setAdapter(adapter);
+                }
+
             }
         });
     }

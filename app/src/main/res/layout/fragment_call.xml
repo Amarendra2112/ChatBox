@@ -20,35 +20,13 @@
             android:id="@+id/NoFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="You have no friends who are using chatbox. Please click the link to invite them to chatbox"
+            android:text="You have a empty call log, call your favorite person to fill the call log, by tapping on the call button"
             android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/InviteFriend"
-            android:layout_width="318dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="100dp"
-            android:backgroundTint="#00BCD4"
-            android:text="Invite friends"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/NoFriend" />
-
-        <TextView
-            android:id="@+id/NoFriendStandardCharge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:text="Standard charges may apply for invitation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/InviteFriend" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

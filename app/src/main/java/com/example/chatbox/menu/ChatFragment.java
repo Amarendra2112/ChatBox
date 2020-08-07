@@ -2,11 +2,13 @@ package com.example.chatbox.menu;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,21 @@ import android.view.ViewGroup;
 import com.example.chatbox.R;
 import com.example.chatbox.adapter.Adapter;
 import com.example.chatbox.model.ChatList;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +82,13 @@ public class ChatFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ConstraintLayout noText;
+    private FirebaseUser firebaseUser;
+    private DatabaseReference reference;
+    private List<ChatList> list;
+    private List<String> allUser;
+    private FirebaseFirestore firebaseFirestore;
+    private Adapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,25 +96,91 @@ public class ChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         recyclerView = view.findViewById(R.id.RecyclerViewChat);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<ChatList> lists = new ArrayList<>();
+
         noText = view.findViewById(R.id.NoFriendConstrainedLayout);
+        list = new ArrayList<>();
+        allUser = new ArrayList<>();
 
-        //lists.add(new ChatList("11","lym","hello frnds","01/02/2020","https://www.google.com/search?q=Happy&sxsrf=ALeKk02vcvXdacGR0VJVC-BkCs3-1BnX2w:1595327669598&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjUra_Ykt7qAhXMAnIKHUwuBVwQ_AUoAXoECB0QAw&biw=1918&bih=960#imgrc=leP3l-UPM9G1qM"));
 
-        if(lists.isEmpty())
-        {
-            noText.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            noText.setVisibility(View.GONE);
-            recyclerView.setAdapter(new Adapter(getContext(),lists));
-        }
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference();
+        firebaseFirestore =  FirebaseFirestore.getInstance();
+
+        getChatList();
 
 
 
 
         return view;
+    }
+
+    private void getChatList() {
+        list.clear();
+        allUser.clear();
+        reference.child("chatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1 : snapshot.getChildren())
+                {
+                    String userId = Objects.requireNonNull(snapshot1.child("chatId").toString());
+                    allUser.add(userId);
+                }
+                getUserData();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getUserData() {
+
+        for(String user : allUser)
+        {
+            firebaseFirestore.collection("Users").document(user).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Log.d("ChatList1","error");
+                    if(documentSnapshot.get("userName") != "" )
+                    {
+                        //ChatList chatList = new ChatList(documentSnapshot.get("userId").toString(),documentSnapshot.get("userName").toString(),"Status h cool bhai","",documentSnapshot.get("imageProfile").toString());
+                        ChatList chatList = new ChatList("Hi","Happy","Happy","happy","");
+                        list.add(chatList);
+                        Log.d("ChatList2","error");
+                    }
+
+                    if(adapter != null)
+                    {
+                        adapter.notifyItemInserted(0);
+                        adapter.notifyDataSetChanged();
+                    }
+                    else
+                    {
+                        if(list.isEmpty())
+                        {
+                            noText.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            noText.setVisibility(View.GONE);
+                            adapter = new Adapter(getContext(),list);
+                            recyclerView.setAdapter(adapter);
+                        }
+                    }
+
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
+
     }
 
 }
