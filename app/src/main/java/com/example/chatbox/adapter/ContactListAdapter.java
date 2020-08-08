@@ -42,7 +42,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
         holder.userName.setText(user.getUserName());
         holder.status.setText(user.getBio());
-        if(user.getImageProfile() != "")
+        if(user.getImageProfile() != "" && !user.getImageProfile().isEmpty())
         {
             Glide.with(context).load(user.getImageProfile()).into(holder.profile);
         }

@@ -1,6 +1,7 @@
 package com.example.chatbox.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.chatbox.Chat.Chat;
 import com.example.chatbox.R;
 import com.example.chatbox.model.ChatList;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -37,14 +39,25 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
 
-        ChatList chatList = list.get(position);
+        final ChatList chatList = list.get(position);
 
         holder.user.setText(chatList.getUserName());
         //holder.date.setText(chatList.getDate());
-        holder.description.setText(chatList.getDescription());
+        //holder.description.setText(chatList.getDescription());
 
         //for profile
-        //Glide.with(context).load(chatList.getUrlProfile()).into(holder.profile);
+        if(!chatList.getUrlProfile().isEmpty())
+        {
+            Glide.with(context).load(chatList.getUrlProfile()).into(holder.profile);
+        }
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, Chat.class).putExtra("userId",chatList.getUserId()).putExtra("userName",chatList.getUserName()).putExtra("userProfile",chatList.getUrlProfile()));
+            }
+        });
     }
 
     @Override

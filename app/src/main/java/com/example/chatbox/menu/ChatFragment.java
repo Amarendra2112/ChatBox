@@ -123,7 +123,7 @@ public class ChatFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1 : snapshot.getChildren())
                 {
-                    String userId = Objects.requireNonNull(snapshot1.child("chatId").toString());
+                    String userId = Objects.requireNonNull(snapshot1.child("chatId").getValue().toString());
                     allUser.add(userId);
                 }
                 getUserData();
@@ -138,19 +138,17 @@ public class ChatFragment extends Fragment {
 
     private void getUserData() {
 
-        for(String user : allUser)
+        for(final String user : allUser)
         {
             firebaseFirestore.collection("Users").document(user).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Log.d("ChatList1","error");
-                    if(documentSnapshot.get("userName") != "" )
-                    {
-                        //ChatList chatList = new ChatList(documentSnapshot.get("userId").toString(),documentSnapshot.get("userName").toString(),"Status h cool bhai","",documentSnapshot.get("imageProfile").toString());
-                        ChatList chatList = new ChatList("Hi","Happy","Happy","happy","");
-                        list.add(chatList);
-                        Log.d("ChatList2","error");
-                    }
+                    ChatList chatList = new ChatList();
+                    chatList.setUserId(documentSnapshot.get("userId").toString());
+                    chatList.setUserName(documentSnapshot.get("userName").toString());
+                    chatList.setUrlProfile(documentSnapshot.get("imageProfile").toString());
+
+                    list.add(chatList);
 
                     if(adapter != null)
                     {

@@ -42,8 +42,6 @@ public class Chat extends AppCompatActivity {
     private String receiverId;
     private ChatAdapter chatAdapter;
     private List<Chats> list;
-    private static final int MAG_TYPE_LEFT = 0;
-    private static final int MAG_TYPE_RIGHT = 1;
 
 
     @Override
@@ -62,7 +60,7 @@ public class Chat extends AppCompatActivity {
         if(userName != null)
         {
             binding.ChatUserName.setText(userName);
-            if(userProfile != "")
+            if(!userProfile.isEmpty() && userProfile != "")
             {
                 Glide.with(this).load(userProfile).into(binding.ChatUserProfile);
             }

@@ -56,4 +56,6 @@ public class ChatList {
     public void setUrlProfile(String urlProfile) {
         this.urlProfile = urlProfile;
     }
+
+
 }

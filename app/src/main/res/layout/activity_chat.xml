@@ -32,6 +32,7 @@
                     android:id="@+id/ChatUserProfile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:paddingStart="10dp"
                     app:srcCompat="@drawable/ic_baseline_person_outline_24" />
 
                 <LinearLayout
@@ -43,12 +44,14 @@
                         android:id="@+id/ChatUserName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:text="UserName" />
 
                     <TextView
                         android:id="@+id/UserLastSeen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:text="LastSeen"
                         android:textSize="10sp" />
                 </LinearLayout>

@@ -12,6 +12,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.chatbox.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +33,7 @@ public class StatusFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ImageView icon;
+
 
     public StatusFragment() {
         // Required empty public constructor
@@ -66,14 +71,30 @@ public class StatusFragment extends Fragment {
     }
 
 
+    private ImageView icon;
+    private FirebaseUser firebaseUser;
+    FirebaseFirestore firebaseFirestore;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        icon = getView().findViewById(R.id.StatusImage);
-//        Glide.with(getContext()).load("imageProfile").into(icon);
-        return inflater.inflate(R.layout.fragment_status, container, false);
+        View view = inflater.inflate(R.layout.fragment_status, container, false);
+//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        icon = view.findViewById(R.id.StatusImage);
+//        firebaseFirestore = FirebaseFirestore.getInstance();
+//        final String userId = firebaseUser.getUid();
+//        firebaseFirestore.collection("User").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                String userProfile = documentSnapshot.get("imageProfile").toString();
+//                Glide.with(getContext()).load(userProfile).into(icon);
+//            }
+//        });
+
+
+        return view;
 
     }
 }
