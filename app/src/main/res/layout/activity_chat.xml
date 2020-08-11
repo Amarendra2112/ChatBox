@@ -23,8 +23,8 @@
                     android:id="@+id/ChatBackButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/ic_baseline_arrow_back_24">
 
                 </ImageView>
 
@@ -57,69 +57,84 @@
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ChatRecyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/ChatToolbar" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
-            <androidx.cardview.widget.CardView
+            android:layout_below="@+id/ChatToolbar"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ChatRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                app:cardElevation="2dp"
-                app:cardCornerRadius="25dp">
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/ChatRecyclerView">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="2dp">
 
-                    <ImageView
-                        android:id="@+id/ChatEmoji"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        app:srcCompat="@drawable/ic_baseline_emoji_emotions_24" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ChatEmoji"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            app:srcCompat="@drawable/ic_baseline_emoji_emotions_24" />
 
 
-                    <EditText
-                        android:id="@+id/ChatMessage"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:padding="8dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Type a message"/>
+                        <EditText
+                            android:id="@+id/ChatMessage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:hint="Type a message"
+                            android:padding="8dp" />
 
-                    <ImageView
-                        android:id="@+id/AttachFileBtn"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="15dp"
+                        <ImageView
+                            android:id="@+id/AttachFileBtn"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="15dp"
 
-                        android:tint="#737373"
-                        app:srcCompat="@drawable/ic_baseline_attach_file_24" />
+                            android:tint="#737373"
+                            app:srcCompat="@drawable/ic_baseline_attach_file_24" />
 
-                    <ImageView
-                        android:id="@+id/ChatSendBtn"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center_vertical"
-                        android:tint="#737373"
-                        app:srcCompat="@drawable/ic_baseline_send_24" />
+                        <ImageView
+                            android:id="@+id/ChatSendBtn"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center_vertical"
+                            android:tint="#737373"
+                            app:srcCompat="@drawable/ic_baseline_send_24" />
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 </layout>
