@@ -151,6 +151,7 @@ public class ChatFragment extends Fragment {
                     chatList.setUserId(documentSnapshot.get("userId").toString());
                     chatList.setUserName(documentSnapshot.get("userName").toString());
                     chatList.setUrlProfile(documentSnapshot.get("imageProfile").toString());
+                    chatList.setDescription(documentSnapshot.get("bio").toString());
 
                     list.add(chatList);
 

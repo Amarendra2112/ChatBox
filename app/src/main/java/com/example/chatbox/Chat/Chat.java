@@ -125,9 +125,10 @@ public class Chat extends AppCompatActivity {
         });
 
         list = new ArrayList<>();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,true);
-        layoutManager.setStackFromEnd(true);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
+        //layoutManager.setStackFromEnd(true);
         binding.ChatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         readChat();
     }
@@ -153,6 +154,7 @@ public class Chat extends AppCompatActivity {
                     }
                     if(chatAdapter != null)
                     {
+                        binding.ChatRecyclerView.smoothScrollToPosition(list.size()-1);
                         chatAdapter.notifyDataSetChanged();
                     }
                     else
@@ -160,6 +162,7 @@ public class Chat extends AppCompatActivity {
 
                         chatAdapter = new ChatAdapter(list,Chat.this);
                         binding.ChatRecyclerView.setAdapter(chatAdapter);
+                        binding.ChatRecyclerView.smoothScrollToPosition(list.size()-1);
                     }
                 }
 

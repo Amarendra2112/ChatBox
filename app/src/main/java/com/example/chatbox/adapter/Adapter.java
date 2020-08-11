@@ -43,7 +43,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
         holder.user.setText(chatList.getUserName());
         //holder.date.setText(chatList.getDate());
-        //holder.description.setText(chatList.getDescription());
+        holder.description.setText(chatList.getDescription());
 
         //for profile
         if(!chatList.getUrlProfile().isEmpty())
