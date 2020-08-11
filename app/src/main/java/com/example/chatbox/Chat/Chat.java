@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -52,6 +53,8 @@ public class Chat extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
 
+        ScrollView scrollView= new ScrollView(this);
+        scrollView.isEnabled();
         Intent intent = getIntent();
         String userName = intent.getStringExtra("userName");
         receiverId = intent.getStringExtra("userId");

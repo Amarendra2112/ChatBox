@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.example.chatbox.R;
 import com.example.chatbox.adapter.ContactListAdapter;
@@ -37,6 +38,8 @@ public class ContactList extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_contact_list);
 
         binding.ContactListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.isEnabled();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseStorage = FirebaseFirestore.getInstance();

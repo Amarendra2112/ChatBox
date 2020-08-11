@@ -13,8 +13,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,11 +45,13 @@ public class SettingProfile extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firebaseFirestore;
-    TextView userName,phone;
-    ImageView camera,profile;
+    TextView userName,phone,statusHeading,status;
+    EditText newUserName;
+    ImageView camera,profile,editProfileName,editStatus;
     private BottomSheetDialog bottomSheetDialog;
     private int IMAGE_GALLERY_REQUEST = 111;
     private Uri imageUri;
+
     private ProgressDialog progressDialog;
 
     @Override
@@ -56,9 +61,13 @@ public class SettingProfile extends AppCompatActivity {
 
         userName = findViewById(R.id.ProfileAboutStatus);
         phone = findViewById(R.id.ProfilePhoneDetail);
+        status = findViewById(R.id.ProfileStatusDetails);
         camera = findViewById(R.id.ProfilePicEdit);
         profile = findViewById(R.id.UserProfilePic);
+        editProfileName= findViewById(R.id.EditUserNameIcon);
+        editStatus = findViewById(R.id.StatusEditIcon);
         progressDialog = new ProgressDialog(this);
+
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -94,6 +103,94 @@ public class SettingProfile extends AppCompatActivity {
                          Toast.makeText(getApplicationContext(),"No profile pic available",Toast.LENGTH_SHORT).show();
                      }
 
+                    }
+                });
+
+            }
+        });
+
+        editProfileName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLayoutOfDesire();
+            }
+        });
+
+        editStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getStatusUpdate();
+            }
+        });
+    }
+
+    private void getStatusUpdate() {
+        final View view = getLayoutInflater().inflate(R.layout.username_edit,null);
+        newUserName = view.findViewById(R.id.NewUserName);
+        statusHeading = view.findViewById(R.id.NewUserNameHeader);
+        statusHeading.setText("Update your status");
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+        bottomSheetDialog.show();
+
+        ((View)view.findViewById(R.id.UpdateUserName)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String user = String.valueOf(newUserName.getText());
+                firebaseFirestore.collection("Users").document(firebaseUser.getUid().toString()).update("bio",user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(),"User name successfully updated",Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void getLayoutOfDesire() {
+        final View view = getLayoutInflater().inflate(R.layout.username_edit,null);
+        newUserName = view.findViewById(R.id.NewUserName);
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomSheetDialog = null;
+            }
+        });
+        bottomSheetDialog.show();
+
+        ((View)view.findViewById(R.id.UpdateUserName)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String user = String.valueOf(newUserName.getText());
+                firebaseFirestore.collection("Users").document(firebaseUser.getUid().toString()).update("userName",user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(),"User name successfully updated",Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
                     }
                 });
 
@@ -187,6 +284,8 @@ public class SettingProfile extends AppCompatActivity {
                 userName.setText(username);
                 String userPhone = Objects.requireNonNull(documentSnapshot.get("userPhone")).toString();
                 phone.setText(userPhone);
+                String userStatus = Objects.requireNonNull(documentSnapshot.get("bio").toString());
+                status.setText(userStatus);
                 String imageProfile = documentSnapshot.getString("imageProfile");
                 if(imageProfile != "")
                 {

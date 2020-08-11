@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -80,6 +81,8 @@ public class StatusFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ScrollView scrollView = new ScrollView(getContext());
+        scrollView.isEnabled();
         View view = inflater.inflate(R.layout.fragment_status, container, false);
 //        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 //        icon = view.findViewById(R.id.StatusImage);

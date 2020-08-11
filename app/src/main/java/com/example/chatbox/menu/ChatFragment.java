@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.example.chatbox.R;
 import com.example.chatbox.adapter.Adapter;
@@ -96,6 +97,9 @@ public class ChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         recyclerView = view.findViewById(R.id.RecyclerViewChat);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ScrollView scrollView = new ScrollView(getContext());
+        scrollView.isEnabled();
+
 
         noText = view.findViewById(R.id.NoFriendConstrainedLayout);
         list = new ArrayList<>();
