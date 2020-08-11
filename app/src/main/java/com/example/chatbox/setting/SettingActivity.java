@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 ;
+import com.example.chatbox.MainActivity;
 import com.example.chatbox.R;
 import com.example.chatbox.SplashScreen;
 import com.example.chatbox.databinding.ActivitySettingBinding;
@@ -53,6 +54,15 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 logoutUser();
+            }
+        });
+        binding.SettingBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }

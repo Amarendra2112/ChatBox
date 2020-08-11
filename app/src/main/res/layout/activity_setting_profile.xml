@@ -13,9 +13,20 @@
         android:layout_height="wrap_content"
         android:background="#00BCD4"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title="Profile"
-        app:titleTextColor="#FFFEFE" />
+        android:theme="?attr/actionBarTheme">
+        <ImageView
+            android:id="@+id/ProfileSettingBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/abc_vector_test" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#F9F8FA"
+            android:textSize="24sp"></TextView>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

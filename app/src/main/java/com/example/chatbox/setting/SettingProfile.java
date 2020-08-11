@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.example.chatbox.MainActivity;
 import com.example.chatbox.R;
 import com.example.chatbox.model.Common;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,7 +48,7 @@ public class SettingProfile extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     TextView userName,phone,statusHeading,status;
     EditText newUserName;
-    ImageView camera,profile,editProfileName,editStatus;
+    ImageView camera,profile,editProfileName,editStatus,backButton;
     private BottomSheetDialog bottomSheetDialog;
     private int IMAGE_GALLERY_REQUEST = 111;
     private Uri imageUri;
@@ -59,6 +60,7 @@ public class SettingProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile);
 
+        backButton = findViewById(R.id.ProfileSettingBackButton);
         userName = findViewById(R.id.ProfileAboutStatus);
         phone = findViewById(R.id.ProfilePhoneDetail);
         status = findViewById(R.id.ProfileStatusDetails);
@@ -120,6 +122,16 @@ public class SettingProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getStatusUpdate();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }

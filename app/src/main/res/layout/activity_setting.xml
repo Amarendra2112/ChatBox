@@ -28,8 +28,21 @@
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:subtitleTextColor="#F1ECEC"
-                app:title="Setting"
-                app:titleTextColor="#F8F5F5" />
+                app:titleTextColor="#F8F5F5">
+
+                <ImageView
+                    android:id="@+id/SettingBackButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/abc_vector_test" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Setting"
+                    android:textColor="#F9F8FA"
+                    android:textSize="24sp"></TextView>
+            </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
                 android:id="@+id/FirstLinearLayoutSetting"
