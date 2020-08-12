@@ -125,8 +125,7 @@ public class Chat extends AppCompatActivity {
         });
 
         list = new ArrayList<>();
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
-        //layoutManager.setStackFromEnd(true);
+
         binding.ChatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 

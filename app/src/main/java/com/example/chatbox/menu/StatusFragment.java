@@ -2,8 +2,11 @@ package com.example.chatbox.menu;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.chatbox.R;
+import com.example.chatbox.databinding.FragmentStatusBinding;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -72,9 +77,7 @@ public class StatusFragment extends Fragment {
     }
 
 
-    private ImageView icon;
-    private FirebaseUser firebaseUser;
-    FirebaseFirestore firebaseFirestore;
+    private FragmentStatusBinding binding;
 
 
     @Override
@@ -83,21 +86,25 @@ public class StatusFragment extends Fragment {
         // Inflate the layout for this fragment
         ScrollView scrollView = new ScrollView(getContext());
         scrollView.isEnabled();
-        View view = inflater.inflate(R.layout.fragment_status, container, false);
-//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        icon = view.findViewById(R.id.StatusImage);
-//        firebaseFirestore = FirebaseFirestore.getInstance();
-//        final String userId = firebaseUser.getUid();
-//        firebaseFirestore.collection("User").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                String userProfile = documentSnapshot.get("imageProfile").toString();
-//                Glide.with(getContext()).load(userProfile).into(icon);
-//            }
-//        });
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_status, container, false);
+        getStatusImage();
 
+        return binding.getRoot();
 
-        return view;
+    }
 
+    private void getStatusImage() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("Users").document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String image = documentSnapshot.getString("imageProfile");
+                if(!image.isEmpty() && image != "" && image != null)
+                {
+                    Glide.with(getContext()).load(image).into(binding.StatusImage);
+                }
+            }
+        });
     }
 }
