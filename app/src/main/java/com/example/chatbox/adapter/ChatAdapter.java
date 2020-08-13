@@ -56,14 +56,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        private TextView message;
+        private TextView message,timeStamp;
         public Holder(@NonNull View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.message);
-
+            timeStamp = itemView.findViewById(R.id.TimeStamp);
         }
         void bind(Chats chats){
             message.setText(chats.getTextMessage());
+            timeStamp.setText(chats.getDateTime());
         }
     }
 

@@ -73,7 +73,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
         public Holder(@NonNull View itemView) {
             super(itemView);
             user = itemView.findViewById(R.id.UserID);
-            date = itemView.findViewById(R.id.TimeStamp);
+            //date = itemView.findViewById(R.id.TimeStamp);
             description = itemView.findViewById(R.id.DescriptionOfChat);
             profile = itemView.findViewById(R.id.DpImage);
         }

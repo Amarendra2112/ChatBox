@@ -84,24 +84,21 @@ public class Chat extends AppCompatActivity {
                     Log.d("Button","Send button works");
 
                     Date date = Calendar.getInstance().getTime();
-                    @SuppressLint("SimpleDateFormat")SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    @SuppressLint("SimpleDateFormat")SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
                     String today = format.format(date);
 
-//                    Calendar currentDateTime = Calendar.getInstance();
-//                    @SuppressLint("SimpleDateFormat")SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-//                    String currentTime = df.format(currentDateTime);
 
                     Chats chats = new Chats(today,binding.ChatMessage.getText().toString(),"Text",firebaseUser.getUid(),receiverId);
 
                     reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Log.d("SuceesSend","Sucess");
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("faliure","Send is failed");
+
                         }
                     });
 
@@ -148,7 +145,6 @@ public class Chat extends AppCompatActivity {
                         if(chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receiverId) || chats.getSender().equals(receiverId) && chats.getReceiver().equals(firebaseUser.getUid()))
                         {
                             list.add(chats);
-                            Log.d("NumberOfRep","HIGH");
                         }
                     }
                     if(chatAdapter != null)
