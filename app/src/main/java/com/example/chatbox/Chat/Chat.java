@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.chatbox.R;
 import com.example.chatbox.adapter.ChatAdapter;
 import com.example.chatbox.databinding.ActivityChatBinding;
+import com.example.chatbox.menu.Notification;
 import com.example.chatbox.model.Chat.Chats;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +44,8 @@ public class Chat extends AppCompatActivity {
     private String receiverId;
     private ChatAdapter chatAdapter;
     private List<Chats> list;
+    private String lastMessage;
+
 
 
     @Override
@@ -88,7 +91,7 @@ public class Chat extends AppCompatActivity {
                     String today = format.format(date);
 
 
-                    Chats chats = new Chats(today,binding.ChatMessage.getText().toString(),"Text",firebaseUser.getUid(),receiverId);
+                    Chats chats = new   Chats(today,binding.ChatMessage.getText().toString(),"Text",firebaseUser.getUid(),receiverId);
 
                     reference.child("Chats").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -110,9 +113,18 @@ public class Chat extends AppCompatActivity {
                     DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("chatList").child(receiverId).child(firebaseUser.getUid());
                     chatRef2.child("chatId").setValue(firebaseUser.getUid());
 
+                    lastMessage = binding.ChatMessage.getText().toString();
+                    Notification notification = new Notification();
+                    notification.setMsg(lastMessage);
+                    DatabaseReference chatNotification1 = FirebaseDatabase.getInstance().getReference("LastChat").child(firebaseUser.getUid()).child(receiverId);
+                    chatNotification1.child("LastMessageSent").setValue(notification).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("Notification","Working");
+                        }
+                    });
 
                     binding.ChatMessage.setText("");
-
                 }
                 else
                 {
@@ -124,13 +136,11 @@ public class Chat extends AppCompatActivity {
         list = new ArrayList<>();
 
         binding.ChatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
         readChat();
+
     }
 
     private void readChat() {
-
         try
         {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -147,6 +157,20 @@ public class Chat extends AppCompatActivity {
                             list.add(chats);
                         }
                     }
+
+                    Chats ch = list.get(list.size()-1);
+                    String msg = ch.getTextMessage();
+                    Notification notification = new Notification();
+                    notification.setMsg(msg);
+                    DatabaseReference chatNotification2 = FirebaseDatabase.getInstance().getReference("LastChat").child(firebaseUser.getUid()).child(receiverId);
+                    chatNotification2.child("LastMessageSeen").setValue(notification).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("Notification","Working");
+                        }
+                    });
+
+
                     if(chatAdapter != null)
                     {
                         binding.ChatRecyclerView.smoothScrollToPosition(list.size()-1);

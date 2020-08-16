@@ -89,6 +89,7 @@ public class ChatFragment extends Fragment {
     private List<String> allUser;
     private FirebaseFirestore firebaseFirestore;
     private Adapter adapter;
+    private String lastSeenSender,lastSeen,lastSentSender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,10 +113,6 @@ public class ChatFragment extends Fragment {
         firebaseFirestore =  FirebaseFirestore.getInstance();
 
         getChatList();
-
-
-
-
         return view;
     }
 
@@ -153,7 +150,142 @@ public class ChatFragment extends Fragment {
                     chatList.setUrlProfile(documentSnapshot.get("imageProfile").toString());
                     chatList.setDescription(documentSnapshot.get("bio").toString());
 
+                    try {
+                            DatabaseReference reference =  FirebaseDatabase.getInstance().getReference();
+                            reference.child(documentSnapshot.get("userId").toString()).child(firebaseUser.getUid()).child("LastMessageSeen").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot != null)
+                                    {
+                                        Notification lastSeenSenderNotification = snapshot.getValue(Notification.class);
+                                        if(lastSeenSenderNotification != null)
+                                        {
+                                            lastSeenSender = lastSeenSenderNotification.getMsg();
+                                        }
+                                        else
+                                        {
+                                            lastSeenSender = "nothing";
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        lastSeenSender = "nothing";
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                    }
+                    catch (Exception e)
+                    {
+                        chatList.setNotification("no");
+                    }
+
+                    try {
+                        reference.child(documentSnapshot.get("userId").toString()).child(firebaseUser.getUid()).child("LastMessageSent").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot !=null)
+                                {
+                                    Notification lastSeenSenderNotification = snapshot.getValue(Notification.class);
+                                    if(lastSeenSenderNotification != null)
+                                    {
+                                        lastSentSender = lastSeenSenderNotification.getMsg();
+                                    }
+                                    else
+                                    {
+                                        lastSentSender = "nothing";
+                                    }
+
+                                }
+                                else
+                                {
+                                    lastSentSender = "nothing";
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }catch (Exception e)
+                    {
+                        chatList.setNotification("no");
+                    }
+                    try {
+
+                        reference.child(firebaseUser.getUid()).child(documentSnapshot.get("userId").toString()).child("LastMessageSeen").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot != null)
+                                {
+                                    Notification lastSeenSenderNotification = snapshot.getValue(Notification.class);
+                                    if(lastSeenSenderNotification != null)
+                                    {
+                                        lastSeen = lastSeenSenderNotification.getMsg();
+                                    }
+                                    else
+                                    {
+                                        lastSeen = "nothing";
+                                    }
+
+                                }
+                                else
+                                {
+                                    lastSeen = "nothing";
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }catch (Exception e)
+                    {
+                        chatList.setNotification("no");
+                    }
+
+                    if(lastSeen != null && lastSeenSender != null && lastSentSender != null)
+                    {
+                        if(lastSeen != lastSeenSender)
+                        {
+                            chatList.setNotification("yes");
+                            if(lastSeen.equalsIgnoreCase(lastSentSender))
+                            {
+                                chatList.setNotification("no");
+                            }
+                        }
+                        else if(lastSeen.equalsIgnoreCase(lastSeenSender))
+                        {
+                            chatList.setNotification("no");
+                        }
+                        else
+                        {
+                            chatList.setNotification("no");
+                        }
+                    }
+                    else
+                    {
+                        chatList.setNotification("no");
+                    }
+
+
+
                     list.add(chatList);
+
+
+
 
                     if(adapter != null)
                     {

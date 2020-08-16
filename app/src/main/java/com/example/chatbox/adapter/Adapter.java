@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.chatbox.Chat.Chat;
 import com.example.chatbox.R;
+import com.example.chatbox.menu.Notification;
 import com.example.chatbox.model.ChatList;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -23,7 +25,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     private List<ChatList> list;
     private Context context;
 
-    public Adapter(Context context,List<ChatList> list)
+
+
+    public Adapter(Context context, List<ChatList> list)
     {
         this.context = context;
         this.list = list;
@@ -42,7 +46,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
         final ChatList chatList = list.get(position);
 
         holder.user.setText(chatList.getUserName());
-        //holder.date.setText(chatList.getDate());
+
+        if(chatList.getNotification().equalsIgnoreCase("yes") )
+            {
+                holder.notification.setVisibility(View.VISIBLE);
+            }
+        else
+            {
+                holder.notification.setVisibility(View.GONE);
+            }
+
+
         holder.description.setText(chatList.getDescription());
 
         //for profile
@@ -67,13 +81,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        private TextView user,date,description;
+        private TextView user,description;
         private CircularImageView profile;
+        private ImageView notification;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
             user = itemView.findViewById(R.id.UserID);
-            //date = itemView.findViewById(R.id.TimeStamp);
+            notification = itemView.findViewById(R.id.NewMessageDot);
             description = itemView.findViewById(R.id.DescriptionOfChat);
             profile = itemView.findViewById(R.id.DpImage);
         }

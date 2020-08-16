@@ -68,7 +68,7 @@ public class SetUSerInfo extends AppCompatActivity {
         if(firebaseUser != null)
         {
             String uId =  firebaseUser.getUid();
-            User users = new User(uId,binding.UserNameSet.getText().toString(),firebaseUser.getPhoneNumber(),"","","","","","");
+            User users = new User(uId,binding.UserNameSet.getText().toString(),firebaseUser.getPhoneNumber(),"","","","","","Hi there, I m using ChatBox");
             firebaseFirestore.collection("Users").document(firebaseUser.getUid()).set(users).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {

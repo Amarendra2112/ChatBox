@@ -1,20 +1,21 @@
 package com.example.chatbox.model;
 
 public class ChatList {
-    private String userId, userName,description,date,urlProfile;
+    private String userId, userName,description,date,urlProfile,notification;
 
     public ChatList()
     {
 
     }
 
-    public ChatList(String userId,String userName,String description,String date, String urlProfile)
+    public ChatList(String userId,String userName,String description,String date, String urlProfile,String notification)
     {
         this.userId = userId;
         this.userName = userName;
         this.description = description;
         this.date = date;
         this.urlProfile = urlProfile;
+        this.notification = notification;
     }
 
     public String getUserId() {
@@ -57,5 +58,11 @@ public class ChatList {
         this.urlProfile = urlProfile;
     }
 
+    public String getNotification() {
+        return notification;
+    }
 
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
 }
